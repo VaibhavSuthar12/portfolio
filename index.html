@@ -1,397 +1,1048 @@
-<?php
-// =============================================
-//  SITE CONFIGURATION — Edit these manually
-// =============================================
-
-$site = [
-    'name'       => 'My Business',
-    'tagline'    => 'Quality. Innovation. Results.',
-    'email'      => 'hello@mybusiness.com',
-    'phone'      => '+91 98765 43210',
-    'address'    => 'Jaipur, Rajasthan, India',
-    'copyright'  => '2024 My Business',
-];
-
-$nav = [
-    ['label' => 'Home',     'href' => '#home'],
-    ['label' => 'About',    'href' => '#about'],
-    ['label' => 'Services', 'href' => '#services'],
-    ['label' => 'Contact',  'href' => '#contact'],
-];
-
-$hero = [
-    'heading'    => 'Welcome to My Business',
-    'subheading' => 'We help you grow smarter, faster, and better.',
-    'btn_text'   => 'Get Started',
-    'btn_href'   => '#contact',
-];
-
-$about = [
-    'heading' => 'About Us',
-    'text'    => 'We are a passionate team dedicated to delivering exceptional results for our clients. With years of experience across various industries, we bring creativity and precision to every project.',
-    'points'  => [
-        '✓ 10+ years of experience',
-        '✓ 200+ happy clients',
-        '✓ Award-winning team',
-        '✓ 24/7 support',
-    ],
-];
-
-$services = [
-    [
-        'icon'  => '🎯',
-        'title' => 'Strategy & Consulting',
-        'desc'  => 'We help you define clear goals and build a roadmap to achieve them.',
-    ],
-    [
-        'icon'  => '💻',
-        'title' => 'Web Development',
-        'desc'  => 'Custom websites and web apps built with modern, scalable technology.',
-    ],
-    [
-        'icon'  => '📱',
-        'title' => 'Mobile Apps',
-        'desc'  => 'iOS and Android applications designed for real user needs.',
-    ],
-    [
-        'icon'  => '📊',
-        'title' => 'Digital Marketing',
-        'desc'  => 'SEO, social media, and campaigns that drive measurable growth.',
-    ],
-    [
-        'icon'  => '🎨',
-        'title' => 'UI/UX Design',
-        'desc'  => 'Beautiful, intuitive interfaces that users actually love.',
-    ],
-    [
-        'icon'  => '☁️',
-        'title' => 'Cloud Solutions',
-        'desc'  => 'Reliable hosting, migrations, and cloud infrastructure management.',
-    ],
-];
-
-$testimonials = [
-    [
-        'name'  => 'Riya Sharma',
-        'role'  => 'CEO, StartupX',
-        'quote' => 'Incredible team! They transformed our vision into a stunning product on time and on budget.',
-    ],
-    [
-        'name'  => 'Anil Mehta',
-        'role'  => 'Founder, GrowthLabs',
-        'quote' => 'Their strategy consulting alone saved us months of wasted effort. Highly recommended.',
-    ],
-    [
-        'name'  => 'Priya Kapoor',
-        'role'  => 'Marketing Director, BrandCo',
-        'quote' => 'The best digital agency we have worked with. Results speak for themselves.',
-    ],
-];
-
-// Handle contact form submission
-$msg = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name    = htmlspecialchars(trim($_POST['name']   ?? ''));
-    $email   = htmlspecialchars(trim($_POST['email']  ?? ''));
-    $message = htmlspecialchars(trim($_POST['message'] ?? ''));
-
-    if ($name && $email && $message) {
-        // Replace with mail() or a mailer library as needed
-        // mail($site['email'], "New message from $name", $message, "From: $email");
-        $msg = 'success';
-    } else {
-        $msg = 'error';
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title><?= $site['name'] ?> — <?= $site['tagline'] ?></title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vaibhav Suthar — Full Stack Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  /* ── Reset & Variables ── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg:       #0d0d0d;
-    --surface:  #161616;
-    --card:     #1e1e1e;
-    --accent:   #d4a843;
-    --accent2:  #e8c06a;
-    --text:     #f0ece3;
-    --muted:    #888;
-    --border:   #2a2a2a;
-    --radius:   12px;
-    --ff-head:  'Playfair Display', Georgia, serif;
-    --ff-body:  'DM Sans', sans-serif;
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent: #5fffb0;
+    --accent2: #7b61ff;
+    --accent3: #ff6b6b;
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --php: #8892bf;
+    --node: #68a063;
+    --wp: #21759b;
   }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--text); font-family: var(--ff-body); font-size: 16px; line-height: 1.7; }
 
-  a { color: inherit; text-decoration: none; }
-  img { display: block; max-width: 100%; }
-
-  /* ── Utility ── */
-  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-  .section    { padding: 96px 0; }
-  .section-label { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); font-weight: 500; margin-bottom: 12px; }
-  .section-title { font-family: var(--ff-head); font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; line-height: 1.15; margin-bottom: 20px; }
-  .divider { width: 48px; height: 3px; background: var(--accent); margin-bottom: 40px; }
-
-  /* ── Navbar ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: rgba(13,13,13,0.92); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 40px; height: 64px;
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
   }
-  .nav-logo { font-family: var(--ff-head); font-size: 1.35rem; color: var(--accent); font-weight: 700; letter-spacing: 0.02em; }
+
+  /* ─── GRID NOISE ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(95,255,176,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(95,255,176,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 40px;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-logo span { color: var(--text); }
+
   .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a { font-size: 0.875rem; font-weight: 500; letter-spacing: 0.04em; color: var(--muted); transition: color 0.2s; }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
   .nav-links a:hover { color: var(--accent); }
 
-  /* ── Hero ── */
-  #home {
-    min-height: 100vh; display: flex; align-items: center;
-    background:
-      radial-gradient(ellipse 70% 60% at 80% 50%, rgba(212,168,67,0.08) 0%, transparent 70%),
-      linear-gradient(180deg, #0d0d0d 60%, #161616 100%);
-    padding-top: 64px;
+  .nav-cta {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 10px 22px;
+    border-radius: 4px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    letter-spacing: 0.5px;
   }
-  .hero-inner { max-width: 700px; }
-  .hero-inner .section-label { margin-bottom: 16px; }
-  .hero-h1 { font-family: var(--ff-head); font-size: clamp(2.8rem, 7vw, 5rem); font-weight: 900; line-height: 1.08; margin-bottom: 24px; }
-  .hero-h1 span { color: var(--accent); }
-  .hero-sub { font-size: 1.15rem; color: var(--muted); max-width: 520px; margin-bottom: 40px; font-weight: 300; }
-  .btn {
-    display: inline-block; padding: 14px 36px; border-radius: 4px;
-    background: var(--accent); color: #0d0d0d; font-weight: 600; font-size: 0.9rem;
-    letter-spacing: 0.06em; text-transform: uppercase; transition: background 0.2s, transform 0.15s;
+
+  .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
   }
-  .btn:hover { background: var(--accent2); transform: translateY(-2px); }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(95,255,176,0.08) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,97,255,0.07) 0%, transparent 70%);
+    bottom: 0; left: 10%;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(95,255,176,0.08);
+    border: 1px solid rgba(95,255,176,0.2);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(48px, 6vw, 80px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero-name .accent { color: var(--accent); }
+
+  .hero-title {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(20px, 2.5vw, 28px);
+    color: var(--muted);
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-desc {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+    max-width: 480px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 14px 32px;
+    border-radius: 4px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(95,255,176,0.3); }
+
   .btn-outline {
-    background: transparent; border: 1.5px solid var(--accent); color: var(--accent);
-    margin-left: 16px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 32px;
+    border-radius: 4px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
   }
-  .btn-outline:hover { background: rgba(212,168,67,0.1); transform: translateY(-2px); }
 
-  /* ── About ── */
-  #about { background: var(--surface); }
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-  .about-points { list-style: none; margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .about-points li { font-size: 0.9rem; color: var(--accent2); font-weight: 500; }
-  .about-visual {
-    aspect-ratio: 1; background: var(--card); border-radius: var(--radius);
-    border: 1px solid var(--border); display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 24px;
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── HERO STATS ─── */
+  .hero-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    animation: fadeUp 0.6s 0.5s ease both;
   }
-  .stat { text-align: center; }
-  .stat-num { font-family: var(--ff-head); font-size: 3rem; color: var(--accent); font-weight: 900; line-height: 1; }
-  .stat-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-  .stat-row { display: flex; gap: 40px; }
 
-  /* ── Services ── */
-  #services { background: var(--bg); }
-  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 8px; }
-  .card {
-    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 32px 28px; transition: border-color 0.2s, transform 0.2s;
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.3s, transform 0.3s;
   }
-  .card:hover { border-color: var(--accent); transform: translateY(-4px); }
-  .card-icon { font-size: 2.2rem; margin-bottom: 16px; }
-  .card-title { font-family: var(--ff-head); font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
-  .card-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
 
-  /* ── Testimonials ── */
-  #testimonials { background: var(--surface); }
-  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 8px; }
-  .testi-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 28px; }
-  .testi-quote { font-size: 0.95rem; color: var(--text); line-height: 1.7; margin-bottom: 24px; font-style: italic; }
-  .testi-quote::before { content: '\201C'; font-family: var(--ff-head); font-size: 2rem; color: var(--accent); line-height: 0; vertical-align: -0.5rem; margin-right: 4px; }
-  .testi-name { font-weight: 600; font-size: 0.9rem; }
-  .testi-role { font-size: 0.78rem; color: var(--muted); }
+  .stat-card:hover { border-color: var(--accent); transform: translateY(-4px); }
 
-  /* ── Contact ── */
-  #contact { background: var(--bg); }
-  .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 64px; align-items: start; }
-  .contact-info p { color: var(--muted); margin-bottom: 32px; font-size: 0.95rem; }
-  .info-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 20px; font-size: 0.9rem; }
-  .info-item span:first-child { font-size: 1.1rem; margin-top: 2px; }
-  .info-item a:hover { color: var(--accent); }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
 
-  .form-group { margin-bottom: 20px; }
-  label { display: block; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-  input, textarea {
-    width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 6px;
-    padding: 12px 16px; color: var(--text); font-family: var(--ff-body); font-size: 0.95rem;
+  .stat-label { color: var(--muted); font-size: 12px; letter-spacing: 0.5px; }
+
+  .stack-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+
+  .pill {
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .pill-php { background: rgba(136,146,191,0.12); color: var(--php); border: 1px solid rgba(136,146,191,0.2); }
+  .pill-node { background: rgba(104,160,99,0.12); color: var(--node); border: 1px solid rgba(104,160,99,0.2); }
+  .pill-wp { background: rgba(33,117,155,0.12); color: #5bb8d4; border: 1px solid rgba(33,117,155,0.2); }
+  .pill-mysql { background: rgba(248,161,0,0.1); color: #f8a100; border: 1px solid rgba(248,161,0,0.2); }
+  .pill-react { background: rgba(97,218,251,0.1); color: #61dafb; border: 1px solid rgba(97,218,251,0.2); }
+  .pill-aws { background: rgba(255,153,0,0.1); color: #ff9900; border: 1px solid rgba(255,153,0,0.2); }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 100px 40px;
+    position: relative; z-index: 1;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  .section-label {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    color: var(--muted);
+    max-width: 560px;
+    font-size: 13px;
+    line-height: 1.8;
+    margin-bottom: 60px;
+  }
+
+  /* ─── SKILLS ─── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .skill-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .skill-block.php::before { background: var(--php); }
+  .skill-block.node::before { background: var(--node); }
+  .skill-block.wp::before { background: #5bb8d4; }
+
+  .skill-block:hover { transform: translateY(-6px); border-color: rgba(95,255,176,0.3); }
+
+  .skill-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .skill-block.php .skill-icon { background: rgba(136,146,191,0.12); }
+  .skill-block.node .skill-icon { background: rgba(104,160,99,0.12); }
+  .skill-block.wp .skill-icon { background: rgba(33,117,155,0.12); }
+
+  .skill-block h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .skill-block p { color: var(--muted); font-size: 12px; line-height: 1.8; margin-bottom: 20px; }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .skill-tag {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+
+  /* ─── PROJECTS ─── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card:first-child { grid-column: span 2; }
+
+  .project-card::after {
+    content: '→';
+    position: absolute;
+    top: 32px; right: 32px;
+    width: 40px; height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--muted);
+    transition: all 0.3s;
+  }
+
+  .project-card:hover { border-color: rgba(95,255,176,0.3); transform: translateY(-4px); }
+  .project-card:hover::after { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+  .project-meta {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .project-type {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(95,255,176,0.08);
+    border: 1px solid rgba(95,255,176,0.15);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  .project-year { color: var(--muted); font-size: 12px; }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    padding-right: 60px;
+  }
+
+  .project-desc { color: var(--muted); font-size: 12px; line-height: 1.8; margin-bottom: 24px; }
+
+  .project-stack { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .project-tag {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+
+  /* ─── EXPERIENCE ─── */
+  .exp-list { display: flex; flex-direction: column; gap: 2px; }
+
+  .exp-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 36px;
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    gap: 24px;
+    align-items: start;
+    transition: all 0.3s;
+  }
+
+  .exp-item:hover { border-color: rgba(95,255,176,0.25); background: rgba(95,255,176,0.02); }
+
+  .exp-period {
+    color: var(--muted);
+    font-size: 12px;
+    padding-top: 4px;
+  }
+
+  .exp-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .exp-company { color: var(--accent); font-size: 12px; margin-bottom: 12px; }
+
+  .exp-desc { color: var(--muted); font-size: 12px; line-height: 1.8; }
+
+  .exp-badge {
+    background: rgba(95,255,176,0.08);
+    border: 1px solid rgba(95,255,176,0.2);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* ─── CONTACT ─── */
+  .contact-wrapper {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+
+  .form-group label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
     transition: border-color 0.2s;
+    outline: none;
+    resize: vertical;
   }
-  input:focus, textarea:focus { outline: none; border-color: var(--accent); }
-  textarea { resize: vertical; min-height: 140px; }
-  .alert { padding: 12px 18px; border-radius: 6px; font-size: 0.875rem; margin-bottom: 20px; }
-  .alert-success { background: rgba(80,200,100,0.1); border: 1px solid rgba(80,200,100,0.3); color: #6ddc8b; }
-  .alert-error   { background: rgba(220,80,80,0.1);  border: 1px solid rgba(220,80,80,0.3);  color: #e87c7c; }
 
-  /* ── Footer ── */
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--accent); }
+
+  .form-group select option { background: var(--card); }
+
+  .btn-submit {
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(95,255,176,0.3); }
+
+  .contact-info { display: flex; flex-direction: column; gap: 24px; }
+
+  .contact-info-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .contact-info-sub { color: var(--muted); font-size: 13px; line-height: 1.8; margin-bottom: 16px; }
+
+  .contact-links { display: flex; flex-direction: column; gap: 12px; }
+
+  .contact-link {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.3s;
+  }
+
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); transform: translateX(4px); }
+
+  .contact-link-icon {
+    width: 36px; height: 36px;
+    background: rgba(95,255,176,0.08);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .contact-link-text { font-size: 13px; }
+  .contact-link-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ─── AVAILABILITY ─── */
+  .avail-box {
+    background: rgba(95,255,176,0.05);
+    border: 1px solid rgba(95,255,176,0.2);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  .avail-dot {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+  }
+
+  .avail-text { font-size: 13px; }
+  .avail-text strong { color: var(--accent); font-family: 'Syne', sans-serif; }
+
+  /* ─── FOOTER ─── */
   footer {
-    background: var(--surface); border-top: 1px solid var(--border);
-    padding: 40px 0; text-align: center;
-    font-size: 0.82rem; color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding: 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative; z-index: 1;
   }
-  footer a { color: var(--accent); }
 
-  /* ── Responsive ── */
-  @media (max-width: 768px) {
-    nav { padding: 0 20px; }
+  .footer-left {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--accent);
+  }
+
+  .footer-copy { color: var(--muted); font-size: 12px; }
+
+  .footer-socials { display: flex; gap: 16px; }
+
+  .footer-social {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .footer-social:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* ─── DIVIDER ─── */
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 40px;
+    position: relative; z-index: 1;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(95,255,176,0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(95,255,176,0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 20px; }
     .nav-links { display: none; }
-    .about-grid, .contact-grid { grid-template-columns: 1fr; }
-    .services-grid, .testi-grid { grid-template-columns: 1fr; }
-    .about-visual { display: none; }
-    .btn-outline { display: none; }
+    .hero { padding: 100px 20px 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    section { padding: 60px 20px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card:first-child { grid-column: span 1; }
+    .exp-item { grid-template-columns: 1fr; }
+    .contact-wrapper { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
   }
 </style>
 </head>
 <body>
 
-<!-- ── NAVBAR ── -->
+<!-- NAV -->
 <nav>
-  <div class="nav-logo"><?= $site['name'] ?></div>
+  <div class="nav-logo">Vaibhav<span></span></div>
   <ul class="nav-links">
-    <?php foreach ($nav as $item): ?>
-      <li><a href="<?= $item['href'] ?>"><?= $item['label'] ?></a></li>
-    <?php endforeach; ?>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ul>
+  <a href="#contact" class="nav-cta">Hire Me</a>
 </nav>
 
-<!-- ── HERO ── -->
-<section id="home">
-  <div class="container">
-    <div class="hero-inner">
-      <div class="section-label"><?= $site['tagline'] ?></div>
-      <h1 class="hero-h1"><?= nl2br(htmlspecialchars($hero['heading'])) ?></h1>
-      <p class="hero-sub"><?= $hero['subheading'] ?></p>
-      <a href="<?= $hero['btn_href'] ?>" class="btn"><?= $hero['btn_text'] ?></a>
-      <a href="#about" class="btn btn-outline">Learn More</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── ABOUT ── -->
-<section id="about" class="section">
-  <div class="container">
-    <div class="about-grid">
-      <div>
-        <div class="section-label">Who We Are</div>
-        <h2 class="section-title"><?= $about['heading'] ?></h2>
-        <div class="divider"></div>
-        <p style="color:var(--muted)"><?= $about['text'] ?></p>
-        <ul class="about-points">
-          <?php foreach ($about['points'] as $pt): ?>
-            <li><?= $pt ?></li>
-          <?php endforeach; ?>
-        </ul>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">Available for Freelance &amp; Full-Time</div>
+      <h1 class="hero-name">Vaibhav<br><span class="accent">Suthar.</span></h1>
+      <p class="hero-title">PHP · Node.js · WordPress Developer</p>
+      <p class="hero-desc">
+        Full stack developer with 5+ years building scalable web apps,
+        custom WordPress solutions, and RESTful APIs. Passionate about
+        clean code, performance, and delivering real business value.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-outline">Get In Touch</a>
       </div>
-      <div class="about-visual">
-        <div class="stat-row">
-          <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Years</div></div>
-          <div class="stat"><div class="stat-num">200+</div><div class="stat-label">Clients</div></div>
-        </div>
-        <div class="stat-row">
-          <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Awards</div></div>
-          <div class="stat"><div class="stat-num">99%</div><div class="stat-label">Satisfaction</div></div>
-        </div>
+      <div class="stack-pills" style="margin-top:36px">
+        <span class="pill pill-php">PHP 8.2</span>
+        <span class="pill pill-node">Node.js</span>
+        <span class="pill pill-wp">WordPress</span>
+        <span class="pill pill-mysql">MySQL</span>
+        <span class="pill pill-react">React</span>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ── SERVICES ── -->
-<section id="services" class="section">
-  <div class="container">
-    <div class="section-label">What We Do</div>
-    <h2 class="section-title">Our Services</h2>
-    <div class="divider"></div>
-    <div class="services-grid">
-      <?php foreach ($services as $svc): ?>
-        <div class="card">
-          <div class="card-icon"><?= $svc['icon'] ?></div>
-          <div class="card-title"><?= $svc['title'] ?></div>
-          <p class="card-desc"><?= $svc['desc'] ?></p>
-        </div>
-      <?php endforeach; ?>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Happy Clients</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">WP Themes Built</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ── TESTIMONIALS ── -->
-<section id="testimonials" class="section">
+<hr class="section-divider">
+
+<!-- SKILLS -->
+<section id="skills">
   <div class="container">
-    <div class="section-label">What Clients Say</div>
-    <h2 class="section-title">Testimonials</h2>
-    <div class="divider"></div>
-    <div class="testi-grid">
-      <?php foreach ($testimonials as $t): ?>
-        <div class="testi-card">
-          <p class="testi-quote"><?= $t['quote'] ?></p>
-          <div class="testi-name"><?= $t['name'] ?></div>
-          <div class="testi-role"><?= $t['role'] ?></div>
+    <div class="section-label">Expertise</div>
+    <h2 class="section-title">What I Build</h2>
+    <p class="section-sub">
+      Deep expertise across the backend and CMS landscape — from high-performance PHP APIs
+      to full WordPress ecosystems and real-time Node.js applications.
+    </p>
+
+    <div class="skills-grid fade-in">
+      <div class="skill-block php">
+        <div class="skill-icon">🐘</div>
+        <h3>PHP Development</h3>
+        <p>Modern PHP 8.x with OOP, PSR standards, and MVC architecture. Expert in Laravel, CodeIgniter, and custom frameworks for enterprise-grade solutions.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Laravel 11</span>
+          <span class="skill-tag">CodeIgniter 4</span>
+          <span class="skill-tag">PHP 8.2</span>
+          <span class="skill-tag">Composer</span>
+          <span class="skill-tag">CAKE PHP</span>
+          <span class="skill-tag">REST APIs</span>
+          <span class="skill-tag">MySQL</span>
         </div>
-      <?php endforeach; ?>
+      </div>
+
+      <div class="skill-block node">
+        <div class="skill-icon">⚡</div>
+        <h3>Node.js Development</h3>
+        <p>Real-time backends with Express.js and Fastify. WebSocket servers, microservices, and serverless functions on AWS Lambda and Vercel.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Express.js</span>
+          <span class="skill-tag">Socket.io</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">Prisma</span>
+          <span class="skill-tag">JWT Auth</span>
+          <span class="skill-tag">GraphQL</span>
+          <span class="skill-tag">Docker</span>
+        </div>
+      </div>
+
+      <div class="skill-block wp">
+        <div class="skill-icon">🔷</div>
+        <h3>WordPress Development</h3>
+        <p>Custom themes, plugins, and headless WordPress setups. WooCommerce  — from store setup to payment gateway integrations and custom checkout flows.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Custom Themes</span>
+          <span class="skill-tag">WooCommerce</span>
+          <span class="skill-tag">ACF Pro</span>
+          <span class="skill-tag">REST API</span>
+          <span class="skill-tag">Headless WP</span>
+          <span class="skill-tag">Multisite</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ── CONTACT ── -->
-<section id="contact" class="section">
+<hr class="section-divider">
+
+<!-- PROJECTS -->
+<section id="projects">
   <div class="container">
-    <div class="contact-grid">
+    <div class="section-label">Portfolio</div>
+    <h2 class="section-title">Recent Projects</h2>
+    <p class="section-sub">A selection of production applications and client projects spanning e-commerce, SaaS, and enterprise WordPress builds.</p>
+
+    <div class="projects-grid fade-in">
+
+      <!-- Featured -->
+      <div class="project-card" style="grid-column: span 2;">
+        <div class="project-meta">
+          <span class="project-type">Featured · E-Commerce</span>
+          <span class="project-year">2026</span>
+        </div>
+        <h3 class="project-title">Hand Made Crafts E-Commerce Platform</h3>
+        <p class="project-desc">
+          Full-stack Laravel + Node.js e-commerce platform serving multiple businesses —
+          PDF invoice generation, automated reminders, role-based access control, and a
+          real-time analytics dashboard. Handles 50+ API requests daily on a VPS with
+          sub-100ms response times.
+        </p>
+        <div class="project-stack">
+          <span class="project-tag">Laravel 11</span>
+          <span class="project-tag">Node.js</span>
+                                                                                                                                                      <span class="project-tag">MySQL</span>
+          <span class="project-tag">Razorpay</span>
+          <span class="project-tag">WordPress</span>
+          <span class="project-tag">Apache2</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-meta">
+          <span class="project-type">Website</span>
+          <span class="project-year">2024</span>
+        </div>
+        <h3 class="project-title">Mercer Mettl</h3>
+        <p class="project-desc">
+          Custom WordPress theme with a tailored size-guide widget, WooCommerce
+          integration, and advanced custom fields for flexible content management.
+        </p>
+        <div class="project-stack">
+          <span class="project-tag">WordPress</span>
+          <span class="project-tag">WooCommerce</span>
+          <span class="project-tag">ACF Pro</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-meta">
+          <span class="project-type">Real-Time App</span>
+          <span class="project-year">2023</span>
+        </div>
+        <h3 class="project-title">OFI RCN</h3>
+        <p class="project-desc">
+          Node.js + Flutter platform with role-based portals, real-time notifications
+          via OneSignal, and automated winner alerts by SMS &amp; email.
+        </p>
+        <div class="project-stack">
+          <span class="project-tag">Node.js</span>
+          <span class="project-tag">Flutter</span>
+          <span class="project-tag">MySQL</span>
+          <span class="project-tag">OneSignal</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-meta">
+          <span class="project-type">CMS · Enterprise</span>
+          <span class="project-year">2023</span>
+        </div>
+        <h3 class="project-title">WordPress Portal</h3>
+        <p class="project-desc">
+          Decoupled WordPress CMS with custom REST endpoints, editorial workflow
+          management, and push notification support via Cloudflare.
+        </p>
+        <div class="project-stack">
+          <span class="project-tag">WordPress</span>
+          <span class="project-tag">GraphQL</span>
+          <span class="project-tag">Cloudflare</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label">Career</div>
+    <h2 class="section-title">Work Experience</h2>
+    <p class="section-sub">Roles across product companies, agencies, and freelance — building web platforms at every scale.</p>
+
+    <div class="exp-list fade-in">
+      <div class="exp-item">
+        <div class="exp-period">Jan 2023 – Present</div>
+        <div>
+          <div class="exp-role">Senior Full Stack Developer</div>
+          <div class="exp-company">TechVerse Solutions, Jaipur</div>
+          <div class="exp-desc">Lead backend development for a Laravel-based HR SaaS. Architected microservices migration, reduced API latency by 40%, mentored a team of 3 junior developers, and managed AWS infrastructure.</div>
+        </div>
+        <div class="exp-badge">Current</div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period">Jun 2021 – Dec 2022</div>
+        <div>
+          <div class="exp-role">PHP & WordPress Developer</div>
+          <div class="exp-company">Digital Craft Agency, Remote</div>
+          <div class="exp-desc">Delivered 25+ custom WordPress sites and WooCommerce stores for global clients. Built reusable Gutenberg block libraries and maintained a portfolio of 10+ live client sites.</div>
+        </div>
+        <div></div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-period">Aug 2020 – May 2021</div>
+        <div>
+          <div class="exp-role">Junior Node.js Developer</div>
+          <div class="exp-company">InnovateTech, Jaipur</div>
+          <div class="exp-desc">Built REST APIs for a food-delivery startup using Express.js and MongoDB. Integrated payment gateways, implemented JWT authentication, and wrote unit tests with Jest.</div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-label">Hire Me</div>
+    <h2 class="section-title">Let's Work Together</h2>
+    <p class="section-sub">Open to full-time roles, contract work, and freelance projects. Fill the form or reach out directly.</p>
+
+    <div class="contact-wrapper fade-in">
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="Vaibhav Suthar">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="Vaibhavs@company.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Company / Project</label>
+          <input type="text" placeholder="Company name or project title">
+        </div>
+        <div class="form-group">
+          <label>Type of Engagement</label>
+          <select>
+            <option value="">Select...</option>
+            <option>Full-Time Job Offer</option>
+            <option>Contract (3-6 months)</option>
+            <option>Freelance Project</option>
+            <option>WordPress Site</option>
+            <option>API / Backend Development</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Project Details</label>
+          <textarea rows="5" placeholder="Describe your project, timeline, and budget..."></textarea>
+        </div>
+        <button class="btn-submit" onclick="alert('Message sent! I\'ll get back to you within 24 hours.')">Send Message →</button>
+      </div>
+
       <div class="contact-info">
-        <div class="section-label">Get In Touch</div>
-        <h2 class="section-title">Contact Us</h2>
-        <div class="divider"></div>
-        <p>Have a project in mind? We'd love to hear from you. Send us a message and we'll get back to you as soon as possible.</p>
-        <div class="info-item"><span>📧</span><a href="mailto:<?= $site['email'] ?>"><?= $site['email'] ?></a></div>
-        <div class="info-item"><span>📞</span><a href="tel:<?= $site['phone'] ?>"><?= $site['phone'] ?></a></div>
-        <div class="info-item"><span>📍</span><span><?= $site['address'] ?></span></div>
-      </div>
-      <div>
-        <?php if ($msg === 'success'): ?>
-          <div class="alert alert-success">✓ Message sent! We'll be in touch soon.</div>
-        <?php elseif ($msg === 'error'): ?>
-          <div class="alert alert-error">⚠ Please fill in all fields.</div>
-        <?php endif; ?>
-        <form method="POST" action="#contact">
-          <div class="form-group">
-            <label for="name">Your Name</label>
-            <input type="text" id="name" name="name" placeholder="Rahul Sharma" required />
-          </div>
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="rahul@example.com" required />
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell us about your project..." required></textarea>
-          </div>
-          <button type="submit" class="btn">Send Message</button>
-        </form>
+        <div>
+          <div class="contact-info-title">Let's talk.</div>
+          <div class="contact-info-sub">I respond to all genuine inquiries within 24 hours. Whether it's a quick question or a detailed brief — drop me a message.</div>
+        </div>
+
+        <div class="avail-box">
+          <div class="avail-dot"></div>
+          <div class="avail-text"><strong>Available Now</strong> — Open to full-time roles & freelance projects starting immediately.</div>
+        </div>
+
+        <div class="contact-links">
+          <a href="mailto:Vaibhavsharma7628@gmail.com" class="contact-link">
+            <div class="contact-link-icon">✉️</div>
+            <div>
+              <div class="contact-link-text">Vaibhavsharma7628@gmail.com</div>
+              <div class="contact-link-label">Email</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/vaibhav-suthar-235b891a8/" class="contact-link">
+            <div class="contact-link-icon">💼</div>
+            <div>
+              <div class="contact-link-text">linkedin.com/in/vaibhav-suthar-235b891a8/</div>
+              <div class="contact-link-label">LinkedIn</div>
+            </div>
+          </a>
+          <a href="https://github.com/VaibhavSuthar12" class="contact-link">
+            <div class="contact-link-icon">🐙</div>
+            <div>
+              <div class="contact-link-text">https://github.com/VaibhavSuthar12</div>
+              <div class="contact-link-label">GitHub</div>
+            </div>
+          </a>
+          <a href="tel:+918955195993" class="contact-link">
+            <div class="contact-link-icon">📞</div>
+            <div>
+              <div class="contact-link-text">+91 8955195993</div>
+              <div class="contact-link-label">WhatsApp / Call</div>
+            </div>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
+<!-- FOOTER -->
 <footer>
-  <div class="container">
-    <p>&copy; <?= $site['copyright'] ?> &nbsp;·&nbsp; Built with PHP &nbsp;·&nbsp; <a href="#home">Back to top ↑</a></p>
+  <div class="footer-left">Vaibhav.dev</div>
+  <div class="footer-copy">© 2025 Vaibhav Suthar · Jaipur, India · All rights reserved</div>
+  <div class="footer-socials">
+    <a href="#" class="footer-social">in</a>
+    <a href="#" class="footer-social">gh</a>
+    <a href="#" class="footer-social">tw</a>
   </div>
 </footer>
 
+<script>
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
